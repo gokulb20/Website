@@ -1,0 +1,373 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ThreePillars from '../components/ThreePillars.astro';
+
+const gumroadSubscribe = 'https://jackrook.gumroad.com/subscribe';
+const gumroad21Rules = 'https://jackrook.gumroad.com/l/ccgsea';
+---
+
+<BaseLayout title="Our Philosophy | Jack Rook" solidNav={true}>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="badge reveal">Est. MMXXIV</div>
+      <h1 class="reveal">Restoring What Was Lost</h1>
+      <p class="reveal">
+        Jack Rook exists to rebuild the bridge between generations.
+        To put into words the lessons that used to pass quietly from father to son.
+      </p>
+    </div>
+  </section>
+
+  <!-- Purpose Section -->
+  <section class="purpose-section">
+    <h2 class="reveal">Why We Exist</h2>
+    <p class="reveal">
+      Somewhere along the way, the chain broke. Fathers stopped teaching sons.
+      Mentors became scarce. And a generation of men grew up piecing together
+      what manhood means from algorithms and influencers.
+    </p>
+    <p class="reveal">
+      Jack Rook was founded to fill that gap—not with ideology or identity politics,
+      but with practical wisdom. The kind that builds real confidence through action,
+      not performance.
+    </p>
+  </section>
+
+  <!-- Approach Section -->
+  <section class="split-section">
+    <div class="split-image left reveal" style="background-image: url('https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=1000&q=80')"></div>
+    <div class="split-content">
+      <p class="tag reveal">The Approach</p>
+      <h2 class="reveal">Practical Over Theoretical</h2>
+      <p class="reveal">
+        We write field guides, not self-help books. Each one offers clear protocols:
+        skills to develop, habits to form, and challenges to test yourself against.
+      </p>
+      <p class="reveal">
+        Philosophy is worthless without application.
+        Everything we publish can be put to use today.
+      </p>
+    </div>
+  </section>
+
+  <!-- Who It's For Section -->
+  <section class="split-section reverse">
+    <div class="split-content">
+      <p class="tag reveal">Who It's For</p>
+      <h2 class="reveal">Men Willing to Do the Work</h2>
+      <p class="reveal">
+        The 22-year-old entering the workforce. The 35-year-old father wanting to
+        pass something meaningful to his children. The 50-year-old who knows it's never too late.
+      </p>
+      <p class="reveal">
+        If you're looking for shortcuts, this isn't for you.
+        If you're willing to show up consistently, welcome.
+      </p>
+    </div>
+    <div class="split-image right reveal" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1000&q=80')"></div>
+  </section>
+
+  <ThreePillars variant="dark" />
+
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="about-container">
+      <div class="about-visual reveal">
+        <div class="about-icon">
+          <span>JR</span>
+        </div>
+        <p>Founded 2024</p>
+      </div>
+      <div class="about-content">
+        <h2 class="reveal">About Jack Rook</h2>
+        <p class="reveal">
+          Jack Rook is a publishing house dedicated to the modern gentleman.
+          We create field guides, essays, and resources for men who want to build
+          lives of substance—not performance.
+        </p>
+        <p class="reveal">
+          Our work is rooted in timeless principles, delivered in a format built for today.
+          No fluff. No ideology. Just practical wisdom you can apply immediately and
+          pass on to the next generation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2 class="reveal">Start Here</h2>
+    <p class="reveal">Get The 21 Rules—a complimentary guide to the fundamentals.</p>
+    <a href={gumroad21Rules} class="btn-primary reveal" data-gumroad-overlay-checkout="true">
+      Request the Guide
+    </a>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Page Hero */
+  .page-hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80') center/cover;
+    position: relative;
+    padding-top: 80px;
+  }
+
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(10,10,10,0.75) 0%,
+      rgba(10,10,10,0.6) 50%,
+      rgba(10,10,10,1) 100%);
+  }
+
+  .page-hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 4rem 2rem;
+    max-width: 800px;
+  }
+
+  .page-hero h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--cream);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .page-hero p {
+    color: var(--gray);
+    font-size: 1.1rem;
+    line-height: 1.9;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+
+  /* Purpose Section */
+  .purpose-section {
+    padding: 8rem 2rem;
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .purpose-section h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.5rem;
+    color: var(--cream);
+    font-weight: 400;
+    margin-bottom: 2rem;
+  }
+
+  .purpose-section p {
+    color: var(--gray);
+    font-size: 1.05rem;
+    line-height: 2;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Split Section */
+  .split-section {
+    display: flex;
+    min-height: 70vh;
+  }
+
+  .split-image {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .split-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .split-image.left::after {
+    background: linear-gradient(to left, var(--charcoal) 0%, transparent 30%);
+  }
+
+  .split-image.right::after {
+    background: linear-gradient(to right, var(--charcoal) 0%, transparent 30%);
+  }
+
+  .split-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+    background: var(--charcoal);
+  }
+
+  .split-content h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2rem;
+    color: var(--cream);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .split-content p {
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+    max-width: 450px;
+  }
+
+  /* About Section */
+  .about-section {
+    padding: 6rem 2rem;
+    background: var(--charcoal);
+  }
+
+  .about-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-visual {
+    flex: 0 0 200px;
+    text-align: center;
+  }
+
+  .about-icon {
+    width: 150px;
+    height: 150px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+  }
+
+  .about-icon span {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3rem;
+    color: var(--gold);
+  }
+
+  .about-visual p {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .about-content h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2rem;
+    color: var(--cream);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content p {
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: var(--black);
+    position: relative;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+  }
+
+  .cta-section h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2rem;
+    color: var(--cream);
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .cta-section p {
+    color: var(--gray);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 1000px) {
+    .split-section {
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .split-section.reverse {
+      flex-direction: column-reverse;
+    }
+
+    .split-image {
+      height: 50vh;
+      min-height: 300px;
+    }
+
+    .split-image.left::after,
+    .split-image.right::after {
+      background: linear-gradient(to bottom, transparent 50%, var(--charcoal) 100%);
+    }
+
+    .split-content {
+      padding: 3rem 2rem;
+    }
+
+    .about-container {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .about-content h2,
+    .about-content p {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .page-hero h1 {
+      font-size: 2rem;
+    }
+
+    .purpose-section {
+      padding: 5rem 2rem;
+    }
+
+    .purpose-section h2 {
+      font-size: 2rem;
+    }
+  }
+</style>

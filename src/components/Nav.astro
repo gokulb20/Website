@@ -1,0 +1,31 @@
+---
+interface Props {
+  currentPath: string;
+  solid?: boolean;
+}
+
+const { currentPath, solid = false } = Astro.props;
+
+const links = [
+  { href: '/philosophy', label: 'Our Philosophy' },
+  { href: '/library', label: 'The Library' },
+  { href: '/store', label: 'The Store' },
+];
+---
+
+<nav class:list={[{ solid }]}>
+  <a href="/" class="logo">Jack Rook</a>
+  <div class="nav-links">
+    {links.map(link => (
+      <a
+        href={link.href}
+        class:list={[{ active: currentPath.startsWith(link.href) }]}
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
+  <button class="mobile-menu-btn" aria-label="Menu">
+    ☰
+  </button>
+</nav>

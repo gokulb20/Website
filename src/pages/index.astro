@@ -1,16 +1,302 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Divider from '../components/Divider.astro';
+import ThreePillars from '../components/ThreePillars.astro';
 
+const gumroadSubscribe = 'https://jackrook.gumroad.com/subscribe';
+const gumroad21Rules = 'https://jackrook.gumroad.com/l/ccgsea';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Jack Rook | Guides for the Modern Gentleman">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge reveal">Est. MMXXIV</div>
+      <h1 class="reveal">The lessons no one taught us, written down for the ones who come next.</h1>
+      <p class="hero-subtitle reveal">
+        Jack Rook publishes guides on the quiet work of becoming a man of substance.
+        The kind of wisdom that used to pass from father to son, now available to anyone willing to do the work.
+      </p>
+      <a href={gumroad21Rules} class="btn-primary reveal" data-gumroad-overlay-checkout="true">
+        Request the Guide
+      </a>
+    </div>
+  </section>
+
+  <Divider />
+
+  <!-- Story Section -->
+  <section class="story-section" id="philosophy">
+    <div class="story-image reveal"></div>
+    <div class="story-content">
+      <p class="tag reveal">Our Philosophy</p>
+      <h2 class="reveal">Manners maketh man. But so does discipline, craft, and quiet confidence.</h2>
+      <p class="reveal">
+        Somewhere along the way, the chain broke. Fathers stopped teaching sons.
+        Mentors became scarce. And a generation of men grew up without the steady
+        guidance that shapes a life of substance.
+      </p>
+      <p class="reveal">
+        Jack Rook exists to restore that tradition. Not through lectures or ideology,
+        but through practical wisdom you can apply today and pass on tomorrow.
+      </p>
+      <a href="/philosophy" class="btn-secondary reveal">Read Our Philosophy →</a>
+    </div>
+  </section>
+
+  <ThreePillars />
+
+  <!-- Email Signup Section -->
+  <section class="email-section" id="signup">
+    <div class="email-image reveal"></div>
+    <div class="email-content">
+      <p class="tag reveal">Enlist</p>
+      <h2 class="reveal">The 21 Rules of the Modern Gentleman</h2>
+      <p class="reveal">
+        A complimentary guide to the fundamentals. 21 principles for building a life
+        of competence, composure, and quiet strength. Delivered directly to your inbox.
+      </p>
+      <a href={gumroad21Rules} class="btn-primary reveal" data-gumroad-overlay-checkout="true">
+        Request Access
+      </a>
+      <p class="email-note reveal">We respect your privacy. No spam, ever.</p>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1920&q=80') center/cover;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(10,10,10,0.7) 0%,
+      rgba(10,10,10,0.5) 50%,
+      rgba(10,10,10,0.95) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    max-width: 900px;
+  }
+
+  .hero-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    border: 1px solid var(--gold);
+    padding: 0.5rem 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    color: var(--gray);
+    margin-bottom: 3rem;
+    max-width: 550px;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+  }
+
+  /* Story Section */
+  .story-section {
+    display: flex;
+    min-height: 100vh;
+    background: var(--black);
+  }
+
+  .story-image {
+    flex: 1;
+    background: url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1200&q=80') center/cover;
+    position: relative;
+  }
+
+  .story-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to left, var(--black) 0%, transparent 30%);
+  }
+
+  .story-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 6rem 4rem 4rem;
+  }
+
+  .story-content h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.75rem;
+    margin-bottom: 2rem;
+    color: var(--cream);
+    line-height: 1.2;
+    font-weight: 400;
+  }
+
+  .story-content p {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.9;
+    margin-bottom: 1.25rem;
+    max-width: 480px;
+  }
+
+  .story-content .btn-secondary {
+    margin-top: 1.5rem;
+  }
+
+  /* Email Section */
+  .email-section {
+    display: flex;
+    min-height: 100vh;
+    background: var(--black);
+  }
+
+  .email-image {
+    flex: 1;
+    background: url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=1200&q=80') center/cover;
+    position: relative;
+  }
+
+  .email-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 30%, var(--black) 100%);
+  }
+
+  .email-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 6rem 4rem 4rem;
+  }
+
+  .email-content h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.5rem;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    font-weight: 400;
+  }
+
+  .email-content > p {
+    color: var(--gray);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.9;
+    max-width: 450px;
+  }
+
+  .email-note {
+    font-size: 0.8rem;
+    color: var(--gray);
+    margin-top: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 1000px) {
+    .hero h1 {
+      font-size: 2.25rem;
+    }
+
+    .story-section {
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .story-image {
+      height: 60vh;
+      min-height: 400px;
+    }
+
+    .story-image::after {
+      background: linear-gradient(to bottom, transparent 50%, var(--black) 100%);
+    }
+
+    .story-content {
+      padding: 4rem 2rem;
+    }
+
+    .story-content h2 {
+      font-size: 2rem;
+    }
+
+    .email-section {
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .email-image {
+      height: 40vh;
+      min-height: 300px;
+    }
+
+    .email-content {
+      padding: 4rem 2rem;
+    }
+
+    .email-content h2 {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero-badge {
+      font-size: 0.65rem;
+      padding: 0.4rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: 1.9rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+    }
+  }
+</style>
+
+<script>
+  // Parallax effect on hero
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const hero = document.querySelector('.hero') as HTMLElement;
+    if (hero && scrolled < window.innerHeight) {
+      hero.style.backgroundPositionY = `${scrolled * 0.3}px`;
+    }
+  });
+</script>

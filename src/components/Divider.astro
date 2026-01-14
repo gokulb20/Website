@@ -1,0 +1,32 @@
+---
+// Gold diamond divider used between sections
+---
+
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-icon">◆</div>
+  <div class="divider-line"></div>
+</div>
+
+<style>
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: var(--black);
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--dark-gray), transparent);
+    max-width: 300px;
+  }
+
+  .divider-icon {
+    color: var(--gold);
+    margin: 0 2rem;
+    font-size: 1.5rem;
+  }
+</style>

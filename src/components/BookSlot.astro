@@ -1,0 +1,45 @@
+---
+// Empty "Coming soon" placeholder slot for the library grid
+---
+
+<div class="book-slot reveal">
+  <div class="book-slot-content">
+    <div class="book-slot-icon">◆</div>
+    <p class="book-slot-text">Coming soon</p>
+  </div>
+</div>
+
+<style>
+  .book-slot {
+    background: var(--charcoal);
+    border: 1px dashed var(--dark-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    aspect-ratio: 3/4;
+    transition: border-color 0.3s;
+  }
+
+  .book-slot:hover {
+    border-color: var(--gold);
+  }
+
+  .book-slot-content {
+    opacity: 0.3;
+  }
+
+  .book-slot-icon {
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .book-slot-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1rem;
+    color: var(--cream);
+    font-style: italic;
+  }
+</style>

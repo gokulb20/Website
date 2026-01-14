@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import BookSlot from '../../components/BookSlot.astro';
+import { getCollection } from 'astro:content';
+
+// Get all blog posts sorted by date
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Format date for display
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+const categories = ['all', 'competence', 'composure', 'character'];
+---
+
+<BaseLayout title="The Library | Jack Rook" solidNav={true}>
+
+  <header class="page-header">
+    <h1 class="reveal">The Library</h1>
+    <p class="reveal">Essays and field notes on the craft of becoming.</p>
+  </header>
+
+  <section class="library-section">
+    <!-- Category Filters -->
+    <div class="library-categories">
+      {categories.map((cat, i) => (
+        <button
+          class:list={['category-btn', { active: i === 0 }]}
+          data-category={cat}
+        >
+          {cat.charAt(0).toUpperCase() + cat.slice(1)}
+        </button>
+      ))}
+    </div>
+
+    <!-- Blog Grid -->
+    <div class="bookshelf">
+      {posts.map(post => (
+        <BlogCard
+          title={post.data.title}
+          excerpt={post.data.excerpt}
+          category={post.data.category}
+          date={formatDate(post.data.date)}
+          readTime={post.data.readTime}
+          image={post.data.image}
+          slug={post.slug}
+        />
+      ))}
+
+      <!-- Empty slots to fill grid -->
+      {posts.length < 6 && Array(6 - posts.length).fill(null).map(() => (
+        <BookSlot />
+      ))}
+
+      <!-- No results message -->
+      <div class="no-results">
+        <p>No essays in this category yet. Check back soon.</p>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Category Filters */
+  .library-categories {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .category-btn {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gray);
+    background: transparent;
+    border: 1px solid var(--dark-gray);
+    cursor: pointer;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .category-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .category-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--black);
+  }
+
+  /* Library Section */
+  .library-section {
+    padding: 0 4rem 6rem;
+    background: var(--black);
+  }
+
+  .bookshelf {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* No results */
+  .no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    display: none;
+  }
+
+  .no-results.show {
+    display: block;
+  }
+
+  .no-results p {
+    color: var(--gray);
+    font-size: 1rem;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 1000px) {
+    .library-section {
+      padding: 0 2rem 4rem;
+    }
+
+    .bookshelf {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .bookshelf {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+
+    .library-categories {
+      gap: 0.5rem;
+    }
+
+    .category-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.7rem;
+    }
+  }
+</style>
+
+<script>
+  const { animate, stagger } = Motion;
+
+  // Category filter functionality
+  const categoryBtns = document.querySelectorAll('.category-btn');
+  const bookCards = document.querySelectorAll('.book-card');
+  const bookSlots = document.querySelectorAll('.book-slot');
+  const noResults = document.querySelector('.no-results');
+
+  categoryBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active state
+      categoryBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const category = (btn as HTMLElement).dataset.category;
+      let visibleCount = 0;
+
+      // Filter cards
+      bookCards.forEach(card => {
+        const cardCategory = (card as HTMLElement).dataset.category;
+        if (category === 'all' || cardCategory === category) {
+          card.classList.remove('hidden');
+          (card as HTMLElement).style.opacity = '0';
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // Show/hide empty slots based on visible cards
+      bookSlots.forEach(slot => {
+        if (category === 'all') {
+          (slot as HTMLElement).style.display = 'flex';
+        } else {
+          (slot as HTMLElement).style.display = 'none';
+        }
+      });
+
+      // Show no results message if needed
+      if (visibleCount === 0 && category !== 'all') {
+        noResults?.classList.add('show');
+      } else {
+        noResults?.classList.remove('show');
+      }
+
+      // Animate visible cards
+      setTimeout(() => {
+        const visibleCards = document.querySelectorAll('.book-card:not(.hidden)');
+        if (visibleCards.length > 0) {
+          animate(
+            visibleCards,
+            { opacity: [0, 1], y: [20, 0] },
+            { delay: stagger(0.08), duration: 0.4, easing: 'ease-out' }
+          );
+        }
+      }, 50);
+    });
+  });
+</script>

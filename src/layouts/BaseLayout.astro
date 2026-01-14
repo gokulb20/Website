@@ -1,0 +1,88 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  solidNav?: boolean;
+}
+
+const {
+  title,
+  description = "Jack Rook publishes guides on the quiet work of becoming a man of substance.",
+  solidNav = false
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+  <title>{title}</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Motion.dev -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.min.js"></script>
+
+  <!-- Gumroad -->
+  <script is:inline src="https://gumroad.com/js/gumroad.js"></script>
+</head>
+<body>
+  <Nav currentPath={currentPath} solid={solidNav} />
+
+  <main>
+    <slot />
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    // Initialize Motion.dev animations
+    const { animate, stagger, inView } = Motion;
+
+    // Animate hero reveals on page load
+    const heroReveals = document.querySelectorAll('.hero .reveal, .page-hero .reveal');
+    if (heroReveals.length > 0) {
+      animate(
+        heroReveals,
+        { opacity: [0, 1], y: [30, 0] },
+        { delay: stagger(0.15), duration: 0.9, easing: "ease-out" }
+      );
+    }
+
+    // Scroll-triggered animations for sections
+    document.querySelectorAll('section, .divider').forEach(section => {
+      const reveals = section.querySelectorAll('.reveal');
+      if (reveals.length > 0) {
+        inView(section, () => {
+          animate(
+            reveals,
+            { opacity: [0, 1], y: [25, 0] },
+            { delay: stagger(0.1), duration: 0.7, easing: "ease-out" }
+          );
+        }, { amount: 0.2 });
+      }
+    });
+
+    // Button hover effects
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        animate(btn, { scale: 1.02 }, { duration: 0.2 });
+      });
+      btn.addEventListener('mouseleave', () => {
+        animate(btn, { scale: 1 }, { duration: 0.2 });
+      });
+    });
+  </script>
+</body>
+</html>

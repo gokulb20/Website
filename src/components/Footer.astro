@@ -1,0 +1,18 @@
+---
+const links = [
+  { href: '/philosophy', label: 'Our Philosophy' },
+  { href: '/library', label: 'The Library' },
+  { href: '/store', label: 'The Store' },
+];
+---
+
+<footer>
+  <div class="footer-content">
+    <a href="/" class="footer-logo">Jack Rook</a>
+    <div class="footer-links">
+      {links.map(link => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </div>
+  </div>
+</footer>

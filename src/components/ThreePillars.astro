@@ -1,0 +1,142 @@
+---
+interface Props {
+  variant?: 'dark' | 'charcoal';
+}
+
+const { variant = 'charcoal' } = Astro.props;
+
+const pillars = [
+  {
+    number: 'I',
+    title: 'Competence',
+    description: 'A gentleman is defined not by what he wears, but by what he can do. We build skills that matter.'
+  },
+  {
+    number: 'II',
+    title: 'Composure',
+    description: 'Grace under pressure is not innate. It is trained. We develop the steadiness that commands respect.'
+  },
+  {
+    number: 'III',
+    title: 'Character',
+    description: 'Reputation is what others think of you. Character is what you are. We cultivate the latter.'
+  }
+];
+---
+
+<section class:list={['pillars-section', variant]}>
+  <div class="pillars-header">
+    <h2 class="reveal">The Three Pillars</h2>
+    <p class="reveal">The foundation upon which everything else is built.</p>
+  </div>
+  <div class="pillars-grid">
+    {pillars.map(pillar => (
+      <div class="pillar reveal">
+        <div class="pillar-number">{pillar.number}</div>
+        <h3>{pillar.title}</h3>
+        <p>{pillar.description}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .pillars-section {
+    padding: 8rem 4rem;
+    position: relative;
+  }
+
+  .pillars-section.charcoal {
+    background: var(--charcoal);
+  }
+
+  .pillars-section.dark {
+    background: var(--black);
+  }
+
+  .pillars-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .pillars-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .pillars-header h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.5rem;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  .pillars-header p {
+    color: var(--gray);
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    letter-spacing: 0.02em;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .pillar {
+    text-align: center;
+    padding: 2rem;
+    border: 1px solid var(--dark-gray);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .pillar:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+
+  .pillar-number {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .pillar h3 {
+    font-size: 0.8rem;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .pillar p {
+    font-size: 0.95rem;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 1000px) {
+    .pillars-section {
+      padding: 6rem 2rem;
+    }
+
+    .pillars-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

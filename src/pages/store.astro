@@ -1,0 +1,202 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const gumroadSubscribe = 'https://jackrook.gumroad.com/subscribe';
+const gumroad21Rules = 'https://jackrook.gumroad.com/l/ccgsea';
+
+// Product catalog
+const products = [
+  {
+    title: 'The Vow',
+    description: 'A manual for forging the self. Build discipline, competence, and real confidence through daily practice and commitment.',
+    tag: 'Field Guide',
+    price: '$2.49',
+    image: 'https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=600&q=80',
+    gumroadUrl: 'https://jackrook.gumroad.com/l/PRODUCT_ID', // TODO: Add real URL when available
+  },
+  {
+    title: 'The 21 Rules',
+    description: 'The fundamentals of modern manhood. 21 principles for building a life of competence, composure, and quiet strength.',
+    tag: 'Foundation',
+    price: 'Free',
+    image: 'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=600&q=80',
+    gumroadUrl: gumroad21Rules,
+    isFree: true,
+  },
+  {
+    title: 'The Craft',
+    description: 'Building skills that command respect. A practical guide to developing competencies that matter.',
+    tag: 'Field Guide',
+    price: 'Coming Soon',
+    image: 'https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?w=600&q=80',
+    gumroadUrl: '#',
+    comingSoon: true,
+  },
+];
+---
+
+<BaseLayout title="The Store | Jack Rook" solidNav={true}>
+
+  <header class="page-header">
+    <h1 class="reveal">The Store</h1>
+    <p class="reveal">Field guides for building a life of substance.</p>
+  </header>
+
+  <!-- Featured Product -->
+  <section class="featured-section">
+    <div class="featured-container">
+      <div class="featured-image reveal" style="background-image: url('https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=800&q=80')"></div>
+      <div class="featured-content">
+        <p class="tag reveal">Start Here</p>
+        <h2 class="featured-title reveal">The 21 Rules of the Modern Gentleman</h2>
+        <p class="featured-subtitle reveal">The Foundation</p>
+        <p class="featured-description reveal">
+          Where every journey begins. 21 principles distilled from timeless wisdom,
+          presented in a format you can apply today. Whether you're 18 or 48,
+          these fundamentals will reshape how you carry yourself through the world.
+        </p>
+        <p class="featured-price reveal">Free <span>$4.99</span></p>
+        <a class="btn-primary reveal" href={gumroad21Rules} data-gumroad-overlay-checkout="true">
+          Get the Guide
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Grid -->
+  <section class="store-section">
+    <div class="store-grid">
+      {products.map(product => (
+        <ProductCard
+          title={product.title}
+          description={product.description}
+          tag={product.tag}
+          price={product.price}
+          image={product.image}
+          gumroadUrl={product.gumroadUrl}
+          isFree={product.isFree}
+          comingSoon={product.comingSoon}
+        />
+      ))}
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Featured Section */
+  .featured-section {
+    padding: 4rem;
+    background: var(--charcoal);
+    margin-bottom: 4rem;
+  }
+
+  .featured-container {
+    display: flex;
+    gap: 4rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .featured-image {
+    flex: 0 0 350px;
+    height: 450px;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--dark-gray);
+  }
+
+  .featured-content {
+    flex: 1;
+  }
+
+  .featured-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.5rem;
+    color: var(--cream);
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .featured-subtitle {
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .featured-description {
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 2rem;
+  }
+
+  .featured-price {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .featured-price span {
+    font-size: 1rem;
+    color: var(--gray);
+    text-decoration: line-through;
+    margin-left: 0.5rem;
+  }
+
+  /* Store Section */
+  .store-section {
+    padding: 2rem 4rem 6rem;
+    background: var(--black);
+  }
+
+  .store-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 1000px) {
+    .featured-section {
+      padding: 2rem;
+    }
+
+    .featured-container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .featured-image {
+      flex: none;
+      width: 100%;
+      height: 350px;
+    }
+
+    .featured-title {
+      font-size: 2rem;
+    }
+
+    .store-section {
+      padding: 2rem;
+    }
+
+    .store-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .store-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+</style>
