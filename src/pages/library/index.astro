@@ -4,10 +4,15 @@ import BlogCard from '../../components/BlogCard.astro';
 import BookSlot from '../../components/BookSlot.astro';
 import { getCollection } from 'astro:content';
 
-// Get all blog posts sorted by date
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+// Get all blog posts sorted by date (handle empty collection gracefully)
+let posts: any[] = [];
+try {
+  const allPosts = await getCollection('blog');
+  posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+} catch (e) {
+  // Collection is empty or doesn't exist yet
+  posts = [];
+}
 
 // Format date for display
 function formatDate(date: Date): string {
