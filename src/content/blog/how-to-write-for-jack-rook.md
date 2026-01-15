@@ -2,79 +2,82 @@
 title: "How to Write for Jack Rook"
 date: 2026-01-14
 category: "competence"
-excerpt: "A guide for contributors on crafting essays that resonate with the modern gentleman."
+excerpt: "The simple workflow for adding essays to The Library using ChatGPT and GitHub."
 image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80"
-readTime: "4 min"
+readTime: "3 min"
 ---
 
-Every essay in The Library follows the same structure. Not because we lack creativity, but because constraints breed clarity. Here's how to contribute.
+Adding an essay to The Library takes five minutes. Here's the workflow.
 
-## The Format
+## Step 1: Write with ChatGPT
 
-Each post is a markdown file with a specific header. Copy this template:
+Open ChatGPT and write your essay. When you're happy with it, ask ChatGPT to format it as a Jack Rook blog post with this template at the top:
 
 ```
 ---
 title: "Your Title Here"
 date: 2026-01-15
 category: "competence"
-excerpt: "One compelling sentence."
-image: "https://unsplash.com/..."
+excerpt: "One sentence that hooks the reader."
+image: "https://images.unsplash.com/photo-xxx?w=600&q=80"
 readTime: "5 min"
 ---
 
-Your content starts here.
+Your essay content here...
 ```
 
-## The Three Categories
+**Category must be one of:** `competence`, `composure`, or `character`.
 
-Every essay must fit one pillar:
+For the image, go to Unsplash.com, find something that fits, and copy the image URL. Add `?w=600&q=80` at the end.
 
-**Competence** — Skills, craft, expertise. How to do things well. Articles about building capability, mastering disciplines, and developing practical knowledge.
+## Step 2: Create the File
 
-**Composure** — Emotional regulation, stress management, presence. How to remain steady. Articles about mental resilience, handling pressure, and maintaining equilibrium.
+Go to the GitHub repository in your browser. Navigate to:
 
-**Character** — Values, integrity, principles. Who to become. Articles about ethics, decision-making, and building a reputation worth having.
+```
+src/content/blog/
+```
 
-If your topic spans multiple categories, choose the dominant one. Ambiguity weakens impact.
+Click **Add file** → **Create new file**.
 
-## The Voice
+Name it something URL-friendly like `the-art-of-discipline.md` (lowercase, hyphens, ends in `.md`).
 
-Write like you're explaining something to a younger version of yourself. Direct, but not condescending. Confident, but not arrogant.
+Paste your formatted essay from ChatGPT.
 
-Avoid:
-- Jargon that obscures rather than clarifies
-- Excessive qualifiers ("I think maybe perhaps...")
-- Apologies for having an opinion
-- Generic advice that could apply to anyone
+## Step 3: Push with Codex
 
-Embrace:
-- Concrete examples over abstract principles
-- Personal experience where relevant
-- Strong positions, clearly stated
-- The occasional well-placed quote
+At the bottom of the page, you'll see a commit message field. Write something simple like "Add new essay: The Art of Discipline".
 
-## The Structure
+Click **Commit new file**.
 
-Most essays follow this pattern:
+That's it. GitHub accepts the change immediately.
 
-1. **Hook** — Start with a statement or observation that creates tension
-2. **Context** — Why this matters, what's at stake
-3. **Framework** — Your main insight or approach, broken into digestible parts
-4. **Application** — How the reader can use this today
-5. **Close** — A memorable final thought
+## Step 4: Watch It Go Live
 
-You don't need headers for short pieces. For longer essays, use them to create natural breaks.
+Netlify watches the GitHub repository. Within 60 seconds of your commit, it automatically rebuilds the site and deploys the new version.
 
-## Finding Images
+Your essay is now live at `jackrook.com/library/the-art-of-discipline`.
 
-Use Unsplash.com for free, high-quality images. Search for:
-- Professional settings
-- Masculine aesthetics (leather, wood, clean lines)
-- Nature and solitude
-- Craftsmanship
+## The Three Pillars
 
-Add `?w=600&q=80` to the end of any Unsplash URL for optimized loading.
+Every essay must fit one category:
+
+**Competence** — Skills, craft, expertise. How to do things well.
+
+**Composure** — Emotional regulation, stress management, presence. How to remain steady.
+
+**Character** — Values, integrity, principles. Who to become.
+
+If your topic spans multiple, choose the dominant one.
+
+## Voice Guidelines
+
+Write like you're explaining something to a younger version of yourself. Direct, not condescending. Confident, not arrogant.
+
+- Use concrete examples over abstract principles
+- Share personal experience where relevant
+- State strong positions clearly
+- Cut every unnecessary word
 
 ## Before You Publish
 
@@ -85,18 +88,6 @@ Ask yourself:
 3. Is this advice I'd give my own son?
 4. Have I removed every unnecessary word?
 
-If yes to all four, it's ready.
-
-## The Workflow
-
-1. Write your draft anywhere (Notes, Google Docs, etc.)
-2. Format it with the template above
-3. Save as `your-title-here.md` in `src/content/blog/`
-4. Push to GitHub
-5. Netlify deploys automatically in ~60 seconds
-
-That's it. No approval process, no committees. Write something worth reading, and publish it.
+If yes to all four, commit it.
 
 > "Easy reading is damn hard writing." — Nathaniel Hawthorne
-
-Welcome to The Library.

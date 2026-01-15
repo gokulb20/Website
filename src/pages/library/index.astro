@@ -111,8 +111,8 @@ const categories = ['all', 'competence', 'composure', 'character'];
   <!-- Article Modal -->
   <div id="article-modal" class="article-modal">
     <div class="modal-overlay"></div>
+    <button class="modal-close" aria-label="Close">×</button>
     <div class="modal-content">
-      <button class="modal-close" aria-label="Close">×</button>
       <article class="modal-article">
         <header class="modal-header">
           <p class="modal-category"></p>
@@ -307,21 +307,29 @@ const categories = ['all', 'competence', 'composure', 'character'];
   .modal-close {
     position: fixed;
     top: 1.5rem;
-    right: 2rem;
-    background: none;
-    border: none;
-    color: var(--cream);
-    font-size: 2.5rem;
+    left: 2rem;
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid var(--dark-gray);
+    color: var(--gray);
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
     cursor: pointer;
     z-index: 1002;
     opacity: 0.7;
-    transition: opacity 0.2s;
+    transition: all 0.2s;
     font-weight: 300;
     line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
   }
 
   .modal-close:hover {
     opacity: 1;
+    border-color: var(--gold);
+    color: var(--gold);
   }
 
   .modal-article {
@@ -451,8 +459,10 @@ const categories = ['all', 'competence', 'composure', 'character'];
 
     .modal-close {
       top: 1rem;
-      right: 1rem;
-      font-size: 2rem;
+      left: 1rem;
+      width: 36px;
+      height: 36px;
+      font-size: 1.1rem;
     }
   }
 </style>
@@ -517,7 +527,7 @@ const categories = ['all', 'competence', 'composure', 'character'];
     // Modal functionality
     var modal = document.getElementById('article-modal');
     var modalOverlay = modal && modal.querySelector('.modal-overlay');
-    var modalClose = modal && modal.querySelector('.modal-close');
+    var modalClose = document.querySelector('.modal-close');
     var modalTitle = modal && modal.querySelector('.modal-title');
     var modalCategory = modal && modal.querySelector('.modal-category');
     var modalMeta = modal && modal.querySelector('.modal-meta');
