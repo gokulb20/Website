@@ -6,9 +6,18 @@ import { getCollection } from 'astro:content';
 
 // Get all blog posts sorted by date (handle empty collection gracefully)
 let posts: any[] = [];
+let renderedPosts: { slug: string; html: string }[] = [];
+
 try {
   const allPosts = await getCollection('blog');
   posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  // Pre-render all post content for the modal
+  for (const post of posts) {
+    const { Content } = await post.render();
+    // We'll use a workaround to get the HTML - store Content component reference
+    renderedPosts.push({ slug: post.slug, Content });
+  }
 } catch (e) {
   // Collection is empty or doesn't exist yet
   posts = [];
@@ -23,17 +32,24 @@ function formatDate(date: Date): string {
   });
 }
 
+const categoryLabels: Record<string, string> = {
+  competence: 'Competence',
+  composure: 'Composure',
+  character: 'Character'
+};
+
 const categories = ['all', 'competence', 'composure', 'character'];
 ---
 
 <BaseLayout title="The Library | Jack Rook" solidNav={true}>
 
-  <header class="page-header">
-    <h1 class="reveal">The Library</h1>
-    <p class="reveal">Essays and field notes on the craft of becoming.</p>
+  <header class="library-hero">
+    <h1 class="reveal">Library</h1>
   </header>
 
   <section class="library-section">
+    <h2 class="section-title reveal">Essays</h2>
+
     <!-- Category Filters -->
     <div class="library-categories">
       {categories.map((cat, i) => (
@@ -72,9 +88,62 @@ const categories = ['all', 'competence', 'composure', 'character'];
     </div>
   </section>
 
+  <!-- Hidden content templates for modal -->
+  {posts.map((post, i) => {
+    const rendered = renderedPosts[i];
+    return (
+      <template id={`content-${post.slug}`}>
+        <rendered.Content />
+      </template>
+    );
+  })}
+
+  <!-- Article Modal -->
+  <div id="article-modal" class="article-modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close">×</button>
+      <article class="modal-article">
+        <header class="modal-header">
+          <p class="modal-category"></p>
+          <h1 class="modal-title"></h1>
+          <p class="modal-meta"></p>
+        </header>
+        <div class="modal-image"></div>
+        <div class="modal-body article-content"></div>
+      </article>
+    </div>
+  </div>
+
 </BaseLayout>
 
 <style>
+  /* Library Hero */
+  .library-hero {
+    padding: 8rem 4rem 3rem;
+    text-align: center;
+    background: var(--black);
+  }
+
+  .library-hero h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.5rem;
+    color: var(--cream);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+
+  /* Section Title */
+  .section-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.5rem;
+    color: var(--gray);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+
   /* Category Filters */
   .library-categories {
     display: flex;
@@ -141,6 +210,14 @@ const categories = ['all', 'competence', 'composure', 'character'];
 
   /* Mobile Responsive */
   @media (max-width: 1000px) {
+    .library-hero {
+      padding: 7rem 2rem 2rem;
+    }
+
+    .library-hero h1 {
+      font-size: 2rem;
+    }
+
     .library-section {
       padding: 0 2rem 4rem;
     }
@@ -165,9 +242,192 @@ const categories = ['all', 'competence', 'composure', 'character'];
       font-size: 0.7rem;
     }
   }
+
+  /* Article Modal */
+  .article-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .article-modal.open {
+    display: flex;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    cursor: pointer;
+  }
+
+  .modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    max-height: 100vh;
+    overflow-y: auto;
+    background: var(--black);
+    z-index: 1001;
+  }
+
+  .modal-close {
+    position: fixed;
+    top: 1.5rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: var(--cream);
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 1002;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .modal-close:hover {
+    opacity: 1;
+  }
+
+  .modal-article {
+    padding: 4rem 2rem;
+  }
+
+  .modal-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .modal-category {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .modal-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--cream);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .modal-meta {
+    font-size: 0.85rem;
+    color: var(--gray);
+    letter-spacing: 0.05em;
+  }
+
+  .modal-image {
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 3rem;
+    border: 1px solid var(--dark-gray);
+  }
+
+  .modal-body {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: var(--cream);
+  }
+
+  .modal-body :global(p) {
+    margin-bottom: 1.5rem;
+    color: var(--gray);
+  }
+
+  .modal-body :global(h2) {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.75rem;
+    color: var(--cream);
+    margin: 3rem 0 1.5rem;
+    font-weight: 400;
+  }
+
+  .modal-body :global(h3) {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.4rem;
+    color: var(--cream);
+    margin: 2.5rem 0 1rem;
+    font-weight: 400;
+  }
+
+  .modal-body :global(blockquote) {
+    border-left: 2px solid var(--gold);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--cream);
+  }
+
+  .modal-body :global(ul),
+  .modal-body :global(ol) {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+    color: var(--gray);
+  }
+
+  .modal-body :global(li) {
+    margin-bottom: 0.75rem;
+  }
+
+  .modal-body :global(strong) {
+    color: var(--cream);
+    font-weight: 600;
+  }
+
+  .modal-body :global(code) {
+    background: var(--charcoal);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  .modal-body :global(pre) {
+    background: var(--charcoal);
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--dark-gray);
+  }
+
+  .modal-body :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  @media (max-width: 600px) {
+    .modal-article {
+      padding: 3rem 1.5rem;
+    }
+
+    .modal-image {
+      height: 250px;
+    }
+
+    .modal-body {
+      font-size: 1rem;
+    }
+
+    .modal-close {
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
+    }
+  }
 </style>
 
-<script>
+<script is:inline>
   const { animate, stagger } = Motion;
 
   // Category filter functionality
@@ -182,15 +442,15 @@ const categories = ['all', 'competence', 'composure', 'character'];
       categoryBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const category = (btn as HTMLElement).dataset.category;
+      const category = btn.dataset.category;
       let visibleCount = 0;
 
       // Filter cards
       bookCards.forEach(card => {
-        const cardCategory = (card as HTMLElement).dataset.category;
+        const cardCategory = card.dataset.category;
         if (category === 'all' || cardCategory === category) {
           card.classList.remove('hidden');
-          (card as HTMLElement).style.opacity = '0';
+          card.style.opacity = '0';
           visibleCount++;
         } else {
           card.classList.add('hidden');
@@ -200,9 +460,9 @@ const categories = ['all', 'competence', 'composure', 'character'];
       // Show/hide empty slots based on visible cards
       bookSlots.forEach(slot => {
         if (category === 'all') {
-          (slot as HTMLElement).style.display = 'flex';
+          slot.style.display = 'flex';
         } else {
-          (slot as HTMLElement).style.display = 'none';
+          slot.style.display = 'none';
         }
       });
 
@@ -225,5 +485,72 @@ const categories = ['all', 'competence', 'composure', 'character'];
         }
       }, 50);
     });
+  });
+
+  // Modal functionality
+  // Note: innerHTML is safe here because content comes from pre-rendered
+  // markdown templates generated at build time, not user input
+  const modal = document.getElementById('article-modal');
+  const modalOverlay = modal?.querySelector('.modal-overlay');
+  const modalClose = modal?.querySelector('.modal-close');
+  const modalTitle = modal?.querySelector('.modal-title');
+  const modalCategory = modal?.querySelector('.modal-category');
+  const modalMeta = modal?.querySelector('.modal-meta');
+  const modalImage = modal?.querySelector('.modal-image');
+  const modalBody = modal?.querySelector('.modal-body');
+
+  function openModal(card) {
+    const slug = card.dataset.slug;
+    const title = card.dataset.title;
+    const category = card.dataset.categoryLabel;
+    const date = card.dataset.date;
+    const readTime = card.dataset.readtime;
+    const image = card.dataset.image;
+
+    // Get pre-rendered content from template (build-time generated, trusted)
+    const template = document.getElementById('content-' + slug);
+    const content = template ? template.innerHTML : '';
+
+    // Populate modal with trusted, pre-rendered content
+    if (modalTitle) modalTitle.textContent = title;
+    if (modalCategory) modalCategory.textContent = category;
+    if (modalMeta) modalMeta.textContent = date + ' · ' + readTime;
+    if (modalImage) modalImage.style.backgroundImage = "url('" + image + "')";
+    if (modalBody) modalBody.innerHTML = content;
+
+    // Open modal
+    modal?.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Animate in
+    animate(
+      modal.querySelector('.modal-content'),
+      { opacity: [0, 1], y: [30, 0] },
+      { duration: 0.3, easing: 'ease-out' }
+    );
+  }
+
+  function closeModal() {
+    modal?.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Click handlers for cards
+  bookCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal(card);
+    });
+  });
+
+  // Close handlers
+  modalClose?.addEventListener('click', closeModal);
+  modalOverlay?.addEventListener('click', closeModal);
+
+  // Escape key closes modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('open')) {
+      closeModal();
+    }
   });
 </script>

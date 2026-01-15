@@ -18,7 +18,18 @@ const categoryLabels: Record<string, string> = {
 };
 ---
 
-<a href={`/library/${slug}`} class="book-card reveal" data-category={category}>
+<div
+  class="book-card reveal"
+  data-category={category}
+  data-slug={slug}
+  data-title={title}
+  data-category-label={categoryLabels[category]}
+  data-date={date}
+  data-readtime={readTime}
+  data-image={image}
+  role="button"
+  tabindex="0"
+>
   <div class="book-card-image" style={`background-image: url('${image}')`}></div>
   <div class="book-card-content">
     <p class="book-card-tag">{categoryLabels[category]}</p>
@@ -26,7 +37,7 @@ const categoryLabels: Record<string, string> = {
     <p class="book-card-excerpt">{excerpt}</p>
     <p class="book-card-meta">{date} · {readTime}</p>
   </div>
-</a>
+</div>
 
 <style>
   .book-card {
@@ -38,6 +49,7 @@ const categoryLabels: Record<string, string> = {
     flex-direction: column;
     overflow: hidden;
     aspect-ratio: 3/4;
+    cursor: pointer;
   }
 
   .book-card:hover {
